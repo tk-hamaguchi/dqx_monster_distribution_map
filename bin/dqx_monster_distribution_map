@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+$:.unshift File.expand_path('../lib', File.dirname(__FILE__))
+
+require 'dqx_monster_distribution_map'
+
+
+DqxMonsterDistributionMap::Crawler.logger =
+  DqxMonsterDistributionMap::Logger.new(STDOUT)
+
+DqxMonsterDistributionMap::Crawler.execute(ARGV).to_a.sort { |a,b|
+  b[1].length <=> a[1].length
+}.each do |k,v|
+  place = k
+  place_length = place.length * 2
+  while (place_length < 20) do
+    place = place + '  '
+    place_length += 2
+  end
+  print "  #{place}: #{v.join(', ')}\n"
+end
+
+
